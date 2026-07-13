@@ -1,8 +1,31 @@
+"use client";
+
+import { useState } from "react";
+import styles from "./page.module.css"
+
 export default function HomePage() {
+    const [message, setMessage] = useState("");
+
+
+    async function checkAPI() {
+        const response = await fetch(
+            "http://localhost:8080/api/status"
+        );
+
+        const data = await response.json();
+
+        setMessage(data.message);
+    }
+
     return (
-        <div className="main">
-            <h1>Hello World</h1>
-            <button>Sync API</button>
-        </div>
-    )
+        <main>
+            <h1>Stock Gate</h1>
+
+            <button onClick={checkAPI}>Check API</button>
+
+            <div>
+                {message}
+            </div>
+        </main>
+    );
 }
